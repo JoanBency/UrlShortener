@@ -21,6 +21,11 @@ const urlSchema = new mongoose.Schema({
     clicks: {
         type: Number,
         default: 0
+    },
+    userIP: {
+        type: String,
+        required: true,
+        default: ''
     }
 });
 
