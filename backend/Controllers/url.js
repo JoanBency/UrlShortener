@@ -1,32 +1,39 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const validateUrl = require('valid-url');
+const validUrl = require('valid-url');
 const shortId = require('shortid');
+
+const Url = require('../Models/urlList');
 
 dotenv.config();
 
 const postUrl = async (req, res) => {
     const { longUrl } = req.body;
 
+    console.log(req.body); //temporary
+
     const baseUrl = process.env.BASE_URL;
 
-    if (!validateUrl.isUri(baseUrl)) {
+    if (!validUrl.isUri(baseUrl)) {
         return res.status(401).json('Invalid base url');
     }
 
-    const urlCode = shortId.generate();
+    const urlId = shortId.generate();
 
-    if (validateUrl.isUri(longUrl)) {
+    // console.log(urlId); //temporary
+    console.log(longUrl); //temporary
+
+    if (validUrl.isUri(longUrl)) {
         try {
             let url = await Url.findOne({ longUrl });
             if(url) {
                 res.json(url);
             } else {
-                const shortUrl = baseUrl + '/' + urlCode;
+                const shortUrl = baseUrl + '/' + urlId;
                 url = new Url({
                     longUrl,
                     shortUrl,
-                    urlCode,
+                    urlId,
                     date: new Date(),
                     clicks: 0
                 });
@@ -43,21 +50,4 @@ const postUrl = async (req, res) => {
     }
 }
 
-const getUrl = async (req, res) => {
-    try {
-        const url = await Url.findOne({ urlCode: req.params.code });
-        if (url) {
-            url.clicks++;
-            url.save();
-            return res.redirect(url.longUrl);
-        } else {
-            return res.status(404).json('No url found');
-        }
-    }
-    catch (err) {
-        console.log(err);
-        res.status(500).json('Server error');
-    }
-}
-
-module.exports = {postUrl, getUrl};
+module.exports = {postUrl };
