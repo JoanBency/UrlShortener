@@ -14,3 +14,7 @@ Path | Method | Description
 /api/url/shorten | POST | Shorten a URL
 /api/url/:id | DELETE | Delete the record of a specific URL
 
+## Additional Functions
+
+> Displays the QR code corresponding to the shortened URL both when conversion happens and also has the option to view it when all URLs are listed.
+
