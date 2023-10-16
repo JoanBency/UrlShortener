@@ -17,7 +17,7 @@ const ShortenUrlComponent = () => {
             return;
         }
 
-        axios.post('http://localhost:3000/api/url/shorten', {longUrl: url})
+        axios.post(`${process.env.REACT_APP_API_URL}/api/url/shorten`, {longUrl: url})
             .then(res => {
                 setUrlData(res.data);
                 setUrlExists(true);

@@ -13,14 +13,14 @@ const ViewUrlComponent = () => {
 
     useEffect(() => {
         const fetchUrlAndSetUrlData = async () => {
-            const response = await axios.get('http://localhost:3000/api/url');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/url`);
             setUrlData(response.data);
         };
         fetchUrlAndSetUrlData();
     }, [urlData]);
 
     const handleDelete = async (id) => {
-        await axios.delete(`http://localhost:3000/api/url/${id}`);
+        await axios.delete(`${process.env.REACT_APP_API_URL}/api/url/${id}`);
         setUrlData(urlData.filter((url) => url.urlId !== id));
     }
 
